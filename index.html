@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content="width=device-width, initial-scale=1.0">
+        <title>Weather-Dashboard</title>
+        <!-- <link rel="stylesheet" href="style.css" /> -->
+         <script src = "https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100 min-h-screen ">
+        <header class="bg-gradient-to-b from-blue-500 to-blue-300 text-white text-2xl font-bold text-center py-4 shadow">Weather-Dashboard</header>
+        <div class="flex flex-col md:flex-row max-w-6xl mx-auto mt-6 shado-lg rounded-lg overflow-hidden">
+        <div class="bg-gradient-to-b from-green-300 to-green-100 w-full md:w-1/3 p-6 space-y-6 flex flex-col items-center">
+        <input type = "text" id ="cityInput" placeholder="Enter City Name" class="px-4 py-2 border border-gray-300 rounded-md w-full"/>
+        <button onclick="getWeather('city')" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition"> <span class="-rotate-45">Search</span></button>
+        <span class="text-gray-800">    </span>
+        <button onclick="getWeather('location')" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition">Current Location</button>
+        </div>
+        <div id = "weatherDisplay" class="flex-1 bg-purple-100 p-8 text-center text-gray-800">
+            
+        </div>
+    </div>
+        <div id = "errorDisplay" class="text-red-600 mt-4"></div>
+        
+        <script src="script.js" defer></script>
+    </body>
+</html>
