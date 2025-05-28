@@ -1,4 +1,3 @@
-
 async function getWeather(type){
     const city = document.getElementById('cityInput').value.trim();
     const weatherDiv = document.getElementById('weatherDisplay');
@@ -11,16 +10,16 @@ async function getWeather(type){
     
     if(type === "city"){
         if(!city){
-        alert("Please enter a city name");
+        errorDiv.textContent = "Please enter a city name";
         return;
         }
         url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
         fetchAndDisplay(url);
     }
 
-    if(type === "location"){
+    else if(type === "location"){
         if(!navigator.geolocation){
-            alert("Location not found");
+             errorDiv.textContent = "Location not found";
             return;
         }
         navigator.geolocation.getCurrentPosition((position) => {
@@ -30,19 +29,27 @@ async function getWeather(type){
             fetchAndDisplay(url);
         },
     () => {
-        alert("Not able to find your location. ")
+         errorDiv.textContent = "Not able to find your location. ";
     });
     }
+    
 
     async function fetchAndDisplay(url) {
         
     
     try{
         const response = await fetch(url);
+        if(!response.ok){
+            throw new Error(`Http error status code:${response.status}`)
+        }
         const data = await response.json();
 
         if(data.cod !== 200){
-            errorDiv.textContent = data.message;
+              errorDiv.textContent = data.message;
+        }
+
+        if(!data.weather || !data.weather[0]){
+            throw new Error("Unexpected error occured")
         }
 
         const icon = data.weather[0].icon;
@@ -76,12 +83,10 @@ async function getWeather(type){
         <p class = "mb-1">Coordinates: ${data.coord.lat},${data.coord.lon}</p>
         </div>
         </div>
-        
-        
-
         `;
+
     }catch(err){
-        errorDiv.textContent="failed to fetch weather data";
+         errorDiv.textContent = "failed to fetch weather data";
     }
 }
 }
