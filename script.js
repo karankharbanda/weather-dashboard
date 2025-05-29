@@ -14,7 +14,7 @@ async function getWeather(type){
         return;
         }
         url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-        fetchAndDisplay(url);
+        fetchAndShow(url);
     }
 
     else if(type === "location"){
@@ -26,15 +26,15 @@ async function getWeather(type){
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
             url=`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-            fetchAndDisplay(url);
+            fetchAndShow(url);
         },
     () => {
          errorDiv.textContent = "Not able to find your location. ";
     });
     }
-    
 
-    async function fetchAndDisplay(url) {
+
+    async function fetchAndShow(url) {
         
     
     try{
@@ -86,7 +86,13 @@ async function getWeather(type){
         `;
 
     }catch(err){
-         errorDiv.textContent = "failed to fetch weather data";
+         errorDiv.textContent = `failed to fetch weather data or city ${city} does not exist`;
     }
 }
 }
+
+document.getElementById('cityInput').addEventListener('keyup',(event) =>{
+    if(event.key === 'Enter'){
+        getWeather('city');
+    }
+});
