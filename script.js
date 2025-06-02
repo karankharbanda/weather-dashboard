@@ -16,12 +16,13 @@ async function getWeather(type){
 
         const geoUrl = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`);
         const geoData = await geoUrl.json();
-        const cityName = geoData[0].name;
+       
 
         if(!geoData.length){
             errorDiv.textContent=`No data for ${city} city found`;
             return;
         }
+        const cityName = geoData[0].name;
         const lon = geoData[0].lon;
         const lat = geoData[0].lat;
 
@@ -100,7 +101,13 @@ async function getWeather(type){
         `;
 
     }catch(err){
+         console.error("Error",err);
+         if(type == 'city'){
          errorDiv.textContent = `failed to fetch weather data or city ${city} does not exist`;
+         }
+         else{
+            errorDiv.textContent="No Weather Data Found"
+         }
     }
 }
 }
