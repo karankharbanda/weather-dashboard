@@ -1,16 +1,16 @@
 async function getWeather(type){
     const city = document.getElementById('cityInput').value.trim();
     const weatherDiv = document.getElementById('weatherDisplay');
-    const errorDiv = document.getElementById('errorDisplay');
+    
     weatherDiv.innerHTML='';
-    errorDiv.innerHTML='';
+    
 
     const apiKey='6c37fa82293c3a931a680ffa0d29a846';
     let url = "";
     
     if(type === "city"){
         if(!city){
-        errorDiv.textContent = "Please enter a city name";
+        showError("Please enter a city name");
         return;
         }
 
@@ -19,7 +19,8 @@ async function getWeather(type){
        
 
         if(!geoData.length){
-            errorDiv.textContent=`No data for ${city} city found`;
+            showError(`No data for ${city} city found`);
+            // errorDiv.textContent=`No data for ${city} city found`;
             return;
         }
         const cityName = geoData[0].name;
@@ -32,7 +33,7 @@ async function getWeather(type){
 
     else if(type === "location"){
         if(!navigator.geolocation){
-             errorDiv.textContent = "Location not found";
+             showError("Location not found");
             return;
         }
         navigator.geolocation.getCurrentPosition(async (position) => {
@@ -48,7 +49,7 @@ async function getWeather(type){
             fetchAndShow(url,cityName,lat,lon);
         },
     () => {
-         errorDiv.textContent = "Not able to find your location. ";
+         showError("Not able to get location");
     });
     }
 
@@ -65,7 +66,7 @@ async function getWeather(type){
 
 
         if(!data.current  || !data.current.weather || !data.current.weather[0]){
-            throw new Error("Unexpected error occured")
+            throw new showError("Unexpected error occured")
         }
 
         const icon = data.current.weather[0].icon;
@@ -97,19 +98,29 @@ async function getWeather(type){
         <p class = "mb-1">Wind Speed: ${data.current.wind_speed}m/s</p>
         <p class = "mb-1">Coordinates: ${lat},${lon}</p>
         </div>
+        <hr class="border-gray-300">
+        <h3 class="text-lg font-semibold mb-1">Sun Timing</h3>
+        <div>
+        <p class = "mb-1">Sunrise: ${new Date(data.current.sunrise * 1000).toLocaleTimeString()}</p>
+        <p class = "mb-1">Sunset: ${new Date(data.current.sunset * 1000).toLocaleTimeString(
+            
+        )}</p>
+        </div>
         </div>
         `;
 
     }catch(err){
          console.error("Error",err);
          if(type == 'city'){
-         errorDiv.textContent = `failed to fetch weather data or city ${city} does not exist`;
+         showError(`failed to fetch weather data or city ${city} does not exist`);
          }
          else{
-            errorDiv.textContent="No Weather Data Found"
+            showError("Failed to fetch the location data at this moment");
          }
     }
 }
+
+
 }
 
 document.getElementById('cityInput').addEventListener('keyup',(event) =>{
@@ -117,3 +128,11 @@ document.getElementById('cityInput').addEventListener('keyup',(event) =>{
         getWeather('city');
     }
 });
+async function showError(err) {
+    const errorDiv = document.getElementById('errorDisplay');
+    errorDiv.textContent = err;
+
+    setTimeout(() =>{
+        errorDiv.textContent='';
+    },5000)
+}
