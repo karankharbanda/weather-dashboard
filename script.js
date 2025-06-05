@@ -75,16 +75,29 @@ async function getWeather(type){
         <div class="bg-blue-300 p-3 rounded-lg shadow-lg w-full max-w-md mx-auto space-y-6"> 
         <div class="text-center">
         <h2 class="text-xl font-semibold">${cityName}</h2>
-        <p class = "mb-4 text-gray-600">Weather: ${data.current.weather[0].main} (${data.current.weather[0].description})</p>
+        <p class = "mb-1 text-gray-600">${data.current.temp}&degC  ${data.current.weather[0].main} (${data.current.weather[0].description})</p>
         <img class="mx-auto" src = "${iconurl}" alt = "Weather Icon" />
+        </div>
+        <hr class="border-gray-300">
+        <div>
+        <h3 class="text-lg font-semibold mb-2">Hourly Forecast</h3>
+        <div class = "flex overflow-x-auto space-x-4 pb-2 scrollbar-thin">
+        ${data.hourly.slice(1,13).map(hour => `
+            <div class = "flex-shrink-0  text-center">
+            <p class = "text-sm">${new Date(hour.dt * 1000).toLocaleTimeString([],{hour: '2-digit',minute:'2-digit'})}</p>
+            <img class = "mx-auto w-10 h-10" src = "http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png" alt = "Icon">
+            <p class = "text-sm">${hour.temp}&degC</p>
+            </div>
+            `).join('')}
+        </div>
         </div>
         <hr class="border-gray-300">
         <div>
         <h3 class="text-lg font-semibold mb-2">Temperature</h3>
         <p class = "">Current Temp: ${data.current.temp}&deg;C</p>
         <p class = "mb-1">Feels like: ${data.current.feels_like}&deg;C</p>
-        
         </div>
+        
         <hr class="border-gray-300">
         <div>
         <h3 class="text-lg font-semibold mb-1">Atmosphere</h3>
@@ -103,7 +116,7 @@ async function getWeather(type){
         <div>
         <p class = "mb-1">Sunrise: ${new Date(data.current.sunrise * 1000).toLocaleTimeString()}</p>
         <p class = "mb-1">Sunset: ${new Date(data.current.sunset * 1000).toLocaleTimeString(
-            
+
         )}</p>
         </div>
         </div>
