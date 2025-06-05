@@ -72,7 +72,7 @@ async function getWeather(type){
         const icon = data.current.weather[0].icon;
         const iconurl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
         weatherDiv.innerHTML=`
-        <div class="bg-blue-300 p-3 rounded-lg shadow-lg w-full max-w-md mx-auto space-y-6"> 
+        <div class="bg-gradient-to-b from-blue-100 to-blue-300 p-3 rounded-lg shadow-lg w-full max-w-md  mx-auto space-y-6"> 
         <div class="text-center">
         <h2 class="text-xl font-semibold">${cityName}</h2>
         <p class = "mb-1 text-gray-600">${data.current.temp}&degC  ${data.current.weather[0].main} (${data.current.weather[0].description})</p>
@@ -81,26 +81,27 @@ async function getWeather(type){
         <hr class="border-gray-300">
         <div>
         <h3 class="text-lg font-semibold mb-2">Hourly Forecast</h3>
-        <div class = "flex overflow-x-auto space-x-4 pb-2 scrollbar-thin">
+        <div class = "flex overflow-x-auto space-x-4 pb-2">
         ${data.hourly.slice(1,13).map(hour => `
             <div class = "flex-shrink-0  text-center">
             <p class = "text-sm">${new Date(hour.dt * 1000).toLocaleTimeString([],{hour: '2-digit',minute:'2-digit'})}</p>
             <img class = "mx-auto w-10 h-10" src = "http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png" alt = "Icon">
             <p class = "text-sm">${hour.temp}&degC</p>
+            <p class = "text-sm">${hour.wind_speed}m/s</p>
             </div>
-            `).join('')}
+            `)}
         </div>
         </div>
         <hr class="border-gray-300">
-        <div>
         <h3 class="text-lg font-semibold mb-2">Temperature</h3>
-        <p class = "">Current Temp: ${data.current.temp}&deg;C</p>
+        <div>
+        <p class = "mb-1">Current Temp: ${data.current.temp}&deg;C</p>
         <p class = "mb-1">Feels like: ${data.current.feels_like}&deg;C</p>
         </div>
         
         <hr class="border-gray-300">
-        <div>
         <h3 class="text-lg font-semibold mb-1">Atmosphere</h3>
+        <div>
         <p class = "mb-1">Humidity: ${data.current.humidity}%</p>
         <p class = "mb-1">Pressure: ${data.current.pressure} hPa</p>
         <p class = "mb-1">Visibility: ${data.current.visibility / 1000} km</p>
