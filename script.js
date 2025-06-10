@@ -27,7 +27,7 @@ async function getWeather(type){
         const lon = geoData[0].lon;
         const lat = geoData[0].lat;
 
-        url=`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,daily,alerts&units=metric&appid=${apiKey}`;
+        url=`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&units=metric&appid=${apiKey}`;
         fetchAndShow(url,cityName,lat,lon);
     }
 
@@ -45,7 +45,7 @@ async function getWeather(type){
 
             const cityName = revdata[0]?.name || 'Current Location';
             
-            url=`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,daily,alerts&units=metric&appid=${apiKey}`;
+            url=`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&units=metric&appid=${apiKey}`;
             fetchAndShow(url,cityName,lat,lon);
         },
     () => {
@@ -65,7 +65,7 @@ async function getWeather(type){
         const data = await response.json();
 
 
-        if(!data.current  || !data.current.weather || !data.current.weather[0]){
+        if(!data.current  || !data.current.weather || !data.current.weather[0] || !data.daily){
             throw new showError("Unexpected error occured")
         }
 
@@ -88,6 +88,19 @@ async function getWeather(type){
             <img class = "mx-auto w-10 h-10" src = "http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png" alt = "Icon">
             <p class = "text-sm">${hour.temp}&degC</p>
             <p class = "text-sm">${hour.wind_speed}m/s</p>
+            </div>
+            `)}
+         </div>
+        </div>
+        <hr class="border-gray-300">
+        <div>
+        <h3 class="text-lg font-semibold mb-2">Daily Forecast</h3>
+        <div class = "flex overflow-x-auto space-x-4 pb-2">
+        ${data.daily.slice(1,6).map(day =>`
+            <div class = "flex-shrink-0 text-center">
+            <p class = "mb-1"> ${new Date(day.dt * 1000).toLocaleDateString([],{day:'2-digit',month:'short'})}</p>
+            <img class = "mx-auto w-10 h-10" src = "https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt = "Icon">
+            <p class = "text-sm">${day.temp.day}&degC</p>
             </div>
             `)}
         </div>
