@@ -94,13 +94,14 @@ async function getWeather(type){
         </div>
         <hr class="border-gray-300">
         <div>
-        <h3 class="text-lg font-semibold mb-2">10-Day Forecast</h3>
+        <h3 class="text-lg font-semibold mb-2">5-Day Forecast</h3>
         <div class = "flex overflow-x-auto space-x-4 pb-2">
-        ${data.daily.slice(1,11).map(day =>`
+        ${data.daily.slice(1,6).map(day =>`
             <div class = "flex-shrink-0 text-center">
             <p class = "mb-1"> ${new Date(day.dt * 1000).toLocaleDateString([],{day:'2-digit',month:'short'})}</p>
             <img class = "mx-auto w-10 h-10" src = "https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt = "Icon">
-            <p class = "text-sm">${day.temp.day}&degC</p><br>
+            <p class = "text-sm">${day.temp.day}&degC</p>
+            <p class = "text-center">~~</p>
             <p class = "text-sm">${day.wind_speed}m/s</p>
             </div>
             `)}
