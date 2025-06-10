@@ -101,6 +101,7 @@ async function getWeather(type){
             <p class = "mb-1"> ${new Date(day.dt * 1000).toLocaleDateString([],{day:'2-digit',month:'short'})}</p>
             <img class = "mx-auto w-10 h-10" src = "https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt = "Icon">
             <p class = "text-sm">${day.temp.day}&degC</p>
+            <p class = "text-sm">${day.wind_speed}m/s</p>
             </div>
             `)}
         </div>
