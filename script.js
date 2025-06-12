@@ -90,7 +90,7 @@ async function getWeather(type){
             <p class = "text-sm">${hour.temp}&degC</p>
             <p class = "text-sm">${hour.wind_speed}m/s</p>
             </div>
-            `)}
+            `).join('')}
          </div>
         </div>
         <hr class="border-gray-300">
@@ -104,7 +104,7 @@ async function getWeather(type){
             <p class = "text-sm">${day.temp.day}&degC</p>
             <p class = "text-sm">${day.weather[0].description}</p>
             </div>
-            `)}
+            `).join('')}
         </div>
         </div>
         <hr class="border-gray-300">
