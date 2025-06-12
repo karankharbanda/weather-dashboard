@@ -4,6 +4,7 @@ async function getWeather(type){
     
     weatherDiv.innerHTML='';
     
+    
 
     const apiKey='6c37fa82293c3a931a680ffa0d29a846';
     let url = "";
@@ -83,7 +84,7 @@ async function getWeather(type){
         <h3 class="text-lg font-semibold mb-2">Hourly Forecast</h3>
         <div class = "flex overflow-x-auto space-x-4 pb-2">
         ${data.hourly.slice(1,13).map(hour => `
-            <div class = "flex-shrink-0  text-center">
+            <div class = "flex-shrink-0 text-center ">
             <p class = "text-sm">${new Date(hour.dt * 1000).toLocaleTimeString([],{hour: '2-digit',minute:'2-digit'})}</p>
             <img class = "mx-auto w-10 h-10" src = "http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png" alt = "Icon">
             <p class = "text-sm">${hour.temp}&degC</p>
@@ -94,15 +95,14 @@ async function getWeather(type){
         </div>
         <hr class="border-gray-300">
         <div>
-        <h3 class="text-lg font-semibold mb-2">5-Day Forecast</h3>
-        <div class = "flex overflow-x-auto space-x-4 pb-2">
+        <h3 class="text-lg font-semibold mb-2">Daily Forecast</h3>
+        <div class = "flex overflow-x-auto space-x-6 pb-4  bg-white rounded-lg shadow-lg overflow-hidden p-6">
         ${data.daily.slice(1,6).map(day =>`
-            <div class = "flex-shrink-0 text-center">
+            <div class = "flex-shrink-0 text-center bg-blue-300 rounded-lg shadow-lg overflow-hidden w-20">
             <p class = "mb-1"> ${new Date(day.dt * 1000).toLocaleDateString([],{day:'2-digit',month:'short'})}</p>
             <img class = "mx-auto w-10 h-10" src = "https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt = "Icon">
             <p class = "text-sm">${day.temp.day}&degC</p>
-            <p class = "text-center">~~</p>
-            <p class = "text-sm">${day.wind_speed}m/s</p>
+            <p class = "text-sm">${day.weather[0].description}</p>
             </div>
             `)}
         </div>
@@ -138,6 +138,7 @@ async function getWeather(type){
         </div>
         `;
 
+
     }catch(err){
          console.error("Error",err);
          if(type == 'city'){
@@ -148,6 +149,8 @@ async function getWeather(type){
          }
     }
 }
+
+
 
 
 }
